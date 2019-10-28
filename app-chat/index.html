@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Simple Chat</title>
+  <style>
+  form{
+    position:absolute;
+    bottom:0px;
+    width: 100%;
+    background: grey;
+    padding: 20px;
+  }
+  input{
+    float: left;
+    width: 70%;
+    height: 30px;
+    border:none
+  }
+  button{
+    float: left;
+    width: 25%;
+    margin-left: 5px;
+    height: 33px;
+  }
+  </style>
+</head>
+<body>
+  <ul id="message"></ul>
+
+  <form>
+    <input type="text" id="text_box">
+    <button> Kirim </button>
+  </form>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script> -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script>
+    var socket = io();
+
+    $('form').submit(function(){
+      socket.emit('newMessage', $('#text_box').val());
+      $('#text_box').val('');
+      return false;
+    });
+
+    socket.on('newMessage', function(msg){
+      $('#message').append($('<li>').text(msg));
+    })
+  </script>
+</body>
+</html>
